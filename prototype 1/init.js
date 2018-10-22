@@ -4,20 +4,29 @@ const TILE_WIDTH = 40;
 const TILE_HEIGHT = 40;
 const NUM_COLS = canvas.width/TILE_WIDTH;
 const NUM_ROWS = canvas.height/TILE_HEIGHT;
-const TILE_GROUND = 0;
-const TILE_WALL = 1;
-const TILE_PLAYER = 2;
-const TILE_ENEMY = 3;
-const TILE_DOOR = 4;
-const TILE_KEY = 5;
 const IMG_PATH = "art/img/";
+const LEFT_ARROW = 37;
+const UP_ARROW = 38;
+const RIGHT_ARROW = 39;
+const DOWN_ARROW = 40;
 
+var tiles = {
+    ground: {val: 0, imgLoc: IMG_PATH + "ground.png"},
+    wall:   {val: 1, imgLoc: IMG_PATH + "wall.png"},
+    player: {val: 2, imgLoc: IMG_PATH + "player.png"},
+    enemy:  {val: 3, imgLoc: IMG_PATH + "enemy.png"},
+    door:   {val: 4, imgLoc: IMG_PATH + "door.png"},
+    key:    {val: 5, imgLoc: IMG_PATH + "key.png"},
+}
+
+console.log(Object.keys(tiles));
 
 var map = [];
 var images = [];
 var imagesLoaded;
 var playerPos = {x: 0, y: 0};
 var playerHealth = 40;
+var numKeys = 0;
 
 window.onload = function(){
     init();
@@ -44,22 +53,18 @@ function startGame(){
 
 function loadImages(){
 
-    var imagePaths = [IMG_PATH + "ground.png", 
-                      IMG_PATH + "wall.png",
-                      IMG_PATH + "player.png",
-                      IMG_PATH + "enemy.png",
-                      IMG_PATH + "door.png",
-                      IMG_PATH + "key.png"];
+    imagesLoaded = Object.keys(tiles).length;//imagePaths.length - 1;
 
-    imagesLoaded = imagePaths.length - 1;
-
-    for(var i = 0; i < imagePaths.length; i++){
-        var img = new ImageClass(imagePaths[i], i);
+    for(var t in tiles){
+        var obj = tiles[t];
+        var img = new ImageClass(obj.imgLoc);
+        console.log(t + ": " + obj.val);
     }
 }
 
 function checkImagesLoaded(){
     imagesLoaded--;
+    console.log(imagesLoaded);
     if(imagesLoaded == 0){
         startGame();
     }
@@ -71,28 +76,28 @@ function initTiles(){
         for(var y = 0; y < NUM_ROWS; y++){
             if(x == 0 || x == NUM_COLS - 1 ||
                y == 0 || y == NUM_ROWS - 1){
-                map[x][y] = TILE_WALL;
+                map[x][y] = tiles.wall.val//TILE_WALL;
             }
             else{
-                map[x][y] = TILE_GROUND;
+                map[x][y] = tiles.ground.val;//TILE_GROUND;
             }
         }
     }
 
-    map[5][5] = TILE_PLAYER;
-    map[8][8] = TILE_ENEMY;
-    map[2][13] = TILE_ENEMY;
-    map[0][6] = TILE_DOOR;
-    map[12][6] = TILE_KEY;
+    map[5][5] = tiles.player.val//TILE_PLAYER;
+    map[8][8] = tiles.enemy.val;//TILE_ENEMY;
+    map[2][13] = tiles.enemy.val;//TILE_ENEMY;
+    map[0][6] = tiles.door.val;//TILE_DOOR;
+    map[12][6] = tiles.key.val;//TILE_KEY;
 }
 
 function drawTiles(){
     for(var x = 0; x < NUM_COLS; x++){
         for(var y = 0; y < NUM_ROWS; y++){
-            if(map[x][y] != TILE_WALL && map[x][y] != TILE_DOOR){
-                ctx.drawImage(images[TILE_GROUND], x * 40, y * 40);
+            if(map[x][y] != tiles.wall.val && map[x][y] != tiles.door.val){
+                ctx.drawImage(images[tiles.ground.val], x * 40, y * 40);
             }
-            if(map[x][y] == TILE_PLAYER){
+            if(map[x][y] == tiles.player.val){
                 playerPos.x = x;
                 playerPos.y = y;
             }
@@ -101,7 +106,7 @@ function drawTiles(){
     }
 }
 
-function ImageClass(path, tileType){
+function ImageClass(path){
     this.loc = path;
     this.image = new Image();
     this.image.src = this.loc;

@@ -8,16 +8,16 @@ function setPlayerInput(){
 }
 
 function movePlayer(evt){
-    if(evt.keyCode == 87){ //w
+    if(evt.keyCode == UP_ARROW){
         updatePlayerLocationIfKeyPressed(0, -1);
     }
-    if(evt.keyCode == 65){ //a
+    if(evt.keyCode == LEFT_ARROW){
         updatePlayerLocationIfKeyPressed(-1, 0);
     }
-    if(evt.keyCode == 83){ //s
+    if(evt.keyCode == DOWN_ARROW){
         updatePlayerLocationIfKeyPressed(0, 1);
     }
-    if(evt.keyCode == 68){ //d
+    if(evt.keyCode == RIGHT_ARROW){
         updatePlayerLocationIfKeyPressed(1, 0);
     }
 }
@@ -28,13 +28,25 @@ function clearMapPos(x,y,tileType){
 
 function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
     if(movePosValid(playerPos.x + deltaX, playerPos.y + deltaY)){
-        if(map[playerPos.x + deltaX][playerPos.y + deltaY] == TILE_ENEMY){
+        if(map[playerPos.x + deltaX][playerPos.y + deltaY] == tiles.enemy.val){
             playerHealth -= 5;
         }
-        clearMapPos(playerPos.x, playerPos.y, TILE_GROUND);
+        else if (map[playerPos.x + deltaX][playerPos.y + deltaY] == tiles.door.val){
+            if(numKeys == 0){
+                console.log("no keys");
+                return;
+            }
+            else{
+                numKeys--;
+            }
+        }
+        else if(map[playerPos.x + deltaX][playerPos.y + deltaY] == tiles.key.val){
+            numKeys++;
+        }
+        clearMapPos(playerPos.x, playerPos.y, tiles.ground.val);
         playerPos.x += deltaX;
         playerPos.y += deltaY;
-        map[playerPos.x][playerPos.y] = TILE_PLAYER;
+        map[playerPos.x][playerPos.y] = tiles.player.val;
         console.clear();
         console.log("PlayerX: " + playerPos.x);
         console.log("PlayerY: " + playerPos.y);
@@ -42,11 +54,7 @@ function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
 }
 
 function movePosValid(newX, newY){
-    if(map[newX][newY] == TILE_DOOR){
-        initTiles();
-        return;
-    }
-    return map[newX][newY] != TILE_WALL;
+    return map[newX][newY] != tiles.wall.val;
 }
 
 function drawUI(){
