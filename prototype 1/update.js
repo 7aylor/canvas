@@ -1,6 +1,7 @@
 function update(){
     drawTiles();
     drawUI();
+    drawInventory();
 }
 
 function setPlayerInput(){
@@ -22,12 +23,8 @@ function movePlayer(evt){
     }
 }
 
-function clearMapPos(x,y,tileType){
-    map[x][y] = tileType;
-}
-
 function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
-    if(movePosValid(playerPos.x + deltaX, playerPos.y + deltaY)){
+    if(isMovePosValid(playerPos.x + deltaX, playerPos.y + deltaY)){
         if(map[playerPos.x + deltaX][playerPos.y + deltaY] == tiles.enemy.val){
             playerHealth -= 5;
         }
@@ -37,34 +34,27 @@ function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
                 return;
             }
             else{
+                var index = getIndexOfItemInInventory(tiles.key);
+                if(index == inventory.length){
+                    inventory.pop();
+                }
+                else{
+                    inventory.splice(index, index + 1);
+                }
                 numKeys--;
             }
         }
         else if(map[playerPos.x + deltaX][playerPos.y + deltaY] == tiles.key.val){
+            inventory.push(tiles.key);
             numKeys++;
         }
         clearMapPos(playerPos.x, playerPos.y, tiles.ground.val);
         playerPos.x += deltaX;
         playerPos.y += deltaY;
         map[playerPos.x][playerPos.y] = tiles.player.val;
-        console.clear();
+        /*console.clear();
         console.log("PlayerX: " + playerPos.x);
         console.log("PlayerY: " + playerPos.y);
+        */
     }
-}
-
-function movePosValid(newX, newY){
-    return map[newX][newY] != tiles.wall.val;
-}
-
-function drawUI(){
-    drawPlayerHealth();
-}
-
-function drawPlayerHealth(){
-    //playerHealth = 30;
-    ctx.fillStyle = "#00ff00";
-    ctx.fillRect(playerPos.x * 40, playerPos.y * 40 - 3, 40, 2);
-    ctx.fillStyle = "#ff0000";
-    ctx.fillRect(playerPos.x * 40 + playerHealth, playerPos.y * 40 - 3, 40 - playerHealth, 2);
 }

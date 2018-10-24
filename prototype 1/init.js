@@ -94,30 +94,6 @@ function initTiles(){
     map[12][6] = tiles.key.val;//TILE_KEY;
 }
 
-function drawInventory(){
-    ctx.fillStyle = "red";
-    ctx.fillRect(0, (NUM_ROWS - 1) * 40, canvas.width, 40);
-    for(var x = 0; x < inventory.length; x++){
-        console.log(images[inventory[x].val]);
-        ctx.drawImage(images[inventory[x].val], 40, 40);
-    }
-}
-
-function drawTiles(){
-    for(var x = 0; x < NUM_COLS; x++){
-        for(var y = 0; y < NUM_ROWS - 1; y++){
-            if(map[x][y] != tiles.wall.val && map[x][y] != tiles.door.val){
-                ctx.drawImage(images[tiles.ground.val], x * 40, y * 40);
-            }
-            if(map[x][y] == tiles.player.val){
-                playerPos.x = x;
-                playerPos.y = y;
-            }
-            ctx.drawImage(images[map[x][y]], x * 40, y * 40);
-        }
-    }
-}
-
 function ImageClass(path){
     this.loc = path;
     this.image = new Image();
