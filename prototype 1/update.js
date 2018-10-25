@@ -25,17 +25,17 @@ function movePlayer(evt){
 
 function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
     if(isMovePosValid(playerPos.x + deltaX, playerPos.y + deltaY)){
-        if(map[playerPos.x + deltaX][playerPos.y + deltaY] == tiles.enemy.val){
+        if(map[playerPos.x + deltaX][playerPos.y + deltaY] == getItemValInArrayByName(tiles, "enemy")){
             playerHealth -= 5;
         }
-        else if (map[playerPos.x + deltaX][playerPos.y + deltaY] == tiles.door.val){
+        else if (map[playerPos.x + deltaX][playerPos.y + deltaY] == getItemValInArrayByName(tiles, "door")){
             if(numKeys == 0){
                 console.log("no keys");
                 return;
             }
             else{
-                var index = getIndexOfItemInInventory(tiles.key);
-                if(index == inventory.length){
+                var index = getIndexOfItemInArray(inventory, "key");
+                if(index == inventory.length - 1){
                     inventory.pop();
                 }
                 else{
@@ -44,14 +44,14 @@ function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
                 numKeys--;
             }
         }
-        else if(map[playerPos.x + deltaX][playerPos.y + deltaY] == tiles.key.val){
-            inventory.push(tiles.key);
+        else if(map[playerPos.x + deltaX][playerPos.y + deltaY] == getItemValInArrayByName(tiles, "key")){
+            inventory.push(tiles[getItemValInArrayByName(tiles, "key")]);
             numKeys++;
         }
-        clearMapPos(playerPos.x, playerPos.y, tiles.ground.val);
+        clearMapPos(playerPos.x, playerPos.y, getItemValInArrayByName(tiles, "ground"));
         playerPos.x += deltaX;
         playerPos.y += deltaY;
-        map[playerPos.x][playerPos.y] = tiles.player.val;
+        map[playerPos.x][playerPos.y] = getItemValInArrayByName(tiles, "player");
         /*console.clear();
         console.log("PlayerX: " + playerPos.x);
         console.log("PlayerY: " + playerPos.y);

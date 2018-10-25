@@ -10,25 +10,23 @@ const UP_ARROW = 38;
 const RIGHT_ARROW = 39;
 const DOWN_ARROW = 40;
 
-var tiles = {
-    ground: {val: 0 , imgLoc: IMG_PATH + "ground.png"},
-    wall:   {val: 1 , imgLoc: IMG_PATH + "wall.png"},
-    player: {val: 2 , imgLoc: IMG_PATH + "player.png"},
-    enemy:  {val: 3 , imgLoc: IMG_PATH + "enemy.png"},
-    door:   {val: 4 , imgLoc: IMG_PATH + "door.png"},
-    key:    {val: 5 , imgLoc: IMG_PATH + "key.png"},
-    bag:    {val: 6 , imgLoc: IMG_PATH + "bag.png"}
-}
+var rawImages = [
+    "ground.png", 
+    "wall.png", 
+    "player.png", 
+    "enemy.png", 
+    "door.png", 
+    "key.png", 
+    "bag.png"
+];
 
-var inventory = [tiles.bag];
-
-console.log(Object.keys(tiles));
-
+var tiles = [];
 var map = [];
 var images = [];
 var imagesLoaded;
 var playerPos = {x: 0, y: 0};
 var playerHealth = 40;
+var inventory = [];
 var numKeys = 0;
 
 window.onload = function(){
@@ -45,6 +43,7 @@ function init(){
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         initTiles();
+        initMap();
         loadImages();
     }
 }
@@ -57,12 +56,18 @@ function startGame(){
 
 function loadImages(){
 
+    imagesLoaded = rawImages.length;
+    /*
     imagesLoaded = Object.keys(tiles).length;//imagePaths.length - 1;
 
     for(var t in tiles){
         var obj = tiles[t];
         var img = new ImageClass(obj.imgLoc);
     }
+    */
+   for(var i = 0; i < rawImages.length; i++){
+        var img = new ImageClass(tiles[i].imgLoc);
+   }
 }
 
 function checkImagesLoaded(){
@@ -74,35 +79,34 @@ function checkImagesLoaded(){
 }
 
 function initTiles(){
+    for(var i = 0; i < rawImages.length; i++){
+        tiles.push(new TileClass(i, rawImages[i].slice(0, rawImages[i].length - 4), rawImages[i]));
+    }
+}
+
+function initMap(){
+    //default level
     for(var x = 0; x < NUM_COLS; x++){
         map[x] = new Array();
         for(var y = 0; y < NUM_ROWS - 1; y++){
             if(x == 0 || x == NUM_COLS - 1 ||
                y == 0 || y == NUM_ROWS - 2){
-                map[x][y] = tiles.wall.val//TILE_WALL;
+                //map[x][y] = tiles.wall.val//TILE_WALL;
+                map[x][y] = getItemValInArrayByName(tiles, "wall");
             }
             else{
-                map[x][y] = tiles.ground.val;//TILE_GROUND;
+                //map[x][y] = tiles.ground.val;//TILE_GROUND;
+                map[x][y] = getItemValInArrayByName(tiles, "ground");
             }
         }
     }
 
-    map[5][5] = tiles.player.val//TILE_PLAYER;
-    map[8][8] = tiles.enemy.val;//TILE_ENEMY;
-    map[2][12] = tiles.enemy.val;//TILE_ENEMY;
-    map[0][6] = tiles.door.val;//TILE_DOOR;
-    map[12][6] = tiles.key.val;//TILE_KEY;
-}
-
-function ImageClass(path){
-    this.loc = path;
-    this.image = new Image();
-    this.image.src = this.loc;
-    images.push(this.image);
-    
-    this.image.onload = this.loadImage;
-
-    this.loadImage = checkImagesLoaded();
+    map[5][5] = getItemValInArrayByName(tiles, "player");//tiles.player.val//TILE_PLAYER;
+    map[8][8] = getItemValInArrayByName(tiles, "enemy");//TILE_ENEMY;
+    map[2][12] =  getItemValInArrayByName(tiles, "enemy");//TILE_ENEMY;
+    map[0][6] =  getItemValInArrayByName(tiles, "door");//TILE_DOOR;
+    map[12][6] =  getItemValInArrayByName(tiles, "key");//TILE_KEY;
+    map[8][3] =  getItemValInArrayByName(tiles, "key");//TILE_KEY;
 }
 
 function initEnemies(){
