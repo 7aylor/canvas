@@ -5,14 +5,14 @@ function drawUI(){
 function drawPlayerHealth(){
     //playerHealth = 30;
     ctx.fillStyle = "#00ff00";
-    ctx.fillRect(playerPos.x * 40, playerPos.y * 40 - 3, 40, 2);
+    ctx.fillRect(player.x * TILE_WIDTH, player.y * TILE_HEIGHT - 3, 40, 2);
     ctx.fillStyle = "#ff0000";
-    ctx.fillRect(playerPos.x * 40 + playerHealth, playerPos.y * 40 - 3, 40 - playerHealth, 2);
+    ctx.fillRect(player.x * TILE_WIDTH + playerHealth, player.y * TILE_HEIGHT - 3, TILE_WIDTH - playerHealth, 2);
 }
 
 function drawInventory(){
     ctx.fillStyle = "#a11a2c";
-    ctx.fillRect(0, (NUM_ROWS - 1) * 40, canvas.width, 40);
+    ctx.fillRect(0, (NUM_ROWS - 1) * TILE_WIDTH, canvas.width, TILE_HEIGHT);
 
     
     ctx.drawImage(images[getItemValInArrayByName(tiles, "bag")], 0, (NUM_ROWS - 1) * 40);
@@ -41,10 +41,14 @@ function drawTiles(){
             }
             //player
             if(map[x][y] == getItemValInArrayByName(tiles, "player")){
-                playerPos.x = x;
-                playerPos.y = y;
+                player.x = x;
+                player.y = y;
             }
             ctx.drawImage(images[map[x][y]], x * 40, y * 40);
         }
     }
+}
+
+function drawPlayer(){
+
 }

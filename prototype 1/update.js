@@ -1,4 +1,5 @@
 function update(){
+    tick++;
     drawTiles();
     drawUI();
     drawInventory();
@@ -24,11 +25,11 @@ function movePlayer(evt){
 }
 
 function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
-    if(isMovePosValid(playerPos.x + deltaX, playerPos.y + deltaY)){
-        if(map[playerPos.x + deltaX][playerPos.y + deltaY] == getItemValInArrayByName(tiles, "enemy")){
+    if(isMovePosValid(player.x + deltaX, player.y + deltaY)){
+        if(map[player.x + deltaX][player.y + deltaY] == getItemValInArrayByName(tiles, "enemy")){
             playerHealth -= 5;
         }
-        else if (map[playerPos.x + deltaX][playerPos.y + deltaY] == getItemValInArrayByName(tiles, "door")){
+        else if (map[player.x + deltaX][player.y + deltaY] == getItemValInArrayByName(tiles, "door")){
             if(numKeys == 0){
                 console.log("no keys");
                 return;
@@ -44,17 +45,17 @@ function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
                 numKeys--;
             }
         }
-        else if(map[playerPos.x + deltaX][playerPos.y + deltaY] == getItemValInArrayByName(tiles, "key")){
+        else if(map[player.x + deltaX][player.y + deltaY] == getItemValInArrayByName(tiles, "key")){
             inventory.push(tiles[getItemValInArrayByName(tiles, "key")]);
             numKeys++;
         }
-        clearMapPos(playerPos.x, playerPos.y, getItemValInArrayByName(tiles, "ground"));
-        playerPos.x += deltaX;
-        playerPos.y += deltaY;
-        map[playerPos.x][playerPos.y] = getItemValInArrayByName(tiles, "player");
+        clearMapPos(player.x, player.y, getItemValInArrayByName(tiles, "ground"));
+        player.x += deltaX;
+        player.y += deltaY;
+        map[player.x][player.y] = getItemValInArrayByName(tiles, "player");
         /*console.clear();
-        console.log("PlayerX: " + playerPos.x);
-        console.log("PlayerY: " + playerPos.y);
+        console.log("PlayerX: " + player.x);
+        console.log("PlayerY: " + player.y);
         */
     }
 }

@@ -9,6 +9,9 @@ const LEFT_ARROW = 37;
 const UP_ARROW = 38;
 const RIGHT_ARROW = 39;
 const DOWN_ARROW = 40;
+const FRAME_RATE = 30;
+
+var tick = 0;
 
 var rawImages = [
     "ground.png", 
@@ -24,10 +27,13 @@ var tiles = [];
 var map = [];
 var images = [];
 var imagesLoaded;
-var playerPos = {x: 0, y: 0};
+var player;
 var playerHealth = 40;
 var inventory = [];
 var numKeys = 0;
+
+
+//TODO: Change all 40s to TILE_WIDTH or TILE_HEIGHT
 
 window.onload = function(){
     init();
@@ -49,8 +55,9 @@ function init(){
 }
 
 function startGame(){
-    setInterval(update, 1000/30); //set fps to 30
-    drawInventory();
+    setInterval(update, 1000/FRAME_RATE); //set fps to 30
+    player = new PlayerClass(5, 5, 40, 1, 0, images[getIndexOfItemInArray(tiles, "player")], 0, 30);
+    console.log(player);
     setPlayerInput();
 }
 
@@ -101,7 +108,7 @@ function initMap(){
         }
     }
 
-    map[5][5] = getItemValInArrayByName(tiles, "player");//tiles.player.val//TILE_PLAYER;
+    //map[5][5] = getItemValInArrayByName(tiles, "player");//tiles.player.val//TILE_PLAYER;
     map[8][8] = getItemValInArrayByName(tiles, "enemy");//TILE_ENEMY;
     map[2][12] =  getItemValInArrayByName(tiles, "enemy");//TILE_ENEMY;
     map[0][6] =  getItemValInArrayByName(tiles, "door");//TILE_DOOR;
