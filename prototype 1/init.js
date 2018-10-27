@@ -17,7 +17,8 @@ var rawImages = [
     "ground.png", 
     "wall.png", 
     "player.png", 
-    "enemy.png", 
+    "enemy_red.png",
+    "enemy_blue.png",
     "door.png", 
     "key.png", 
     "bag.png"
@@ -99,8 +100,8 @@ function initMap(){
         }
     }
 
-    map[8][8] = getItemValInArrayByName(tiles, "enemy");//TILE_ENEMY;
-    map[2][12] =  getItemValInArrayByName(tiles, "enemy");//TILE_ENEMY;
+    map[8][8] = getItemValInArrayByName(tiles, "enemy_red");//TILE_ENEMY;
+    map[2][12] =  getItemValInArrayByName(tiles, "enemy_blue");//TILE_ENEMY;
     map[0][6] =  getItemValInArrayByName(tiles, "door");//TILE_DOOR;
     map[12][6] =  getItemValInArrayByName(tiles, "key");//TILE_KEY;
     map[8][3] =  getItemValInArrayByName(tiles, "key");//TILE_KEY;

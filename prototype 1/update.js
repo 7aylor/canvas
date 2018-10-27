@@ -27,8 +27,11 @@ function movePlayer(evt){
 
 function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
     if(isMovePosValid(player.x + deltaX, player.y + deltaY)){
-        if(map[player.x + deltaX][player.y + deltaY] == getItemValInArrayByName(tiles, "enemy")){
-            playerHealth -= 5;
+        if(map[player.x + deltaX][player.y + deltaY] == getItemValInArrayByName(tiles, "enemy_red")){
+            player.health -= 5;
+        }
+        if(map[player.x + deltaX][player.y + deltaY] == getItemValInArrayByName(tiles, "enemy_blue")){
+            player.mana -= 5;
         }
         else if (map[player.x + deltaX][player.y + deltaY] == getItemValInArrayByName(tiles, "door")){
             if(numKeys == 0){

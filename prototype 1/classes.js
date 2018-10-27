@@ -15,6 +15,7 @@ function PlayerClass(x, y, health, attack, numKeys, img, sprite, animSpeed){
     this.x = x;
     this.y = y;
     this.health = health;
+    this.mana = health;
     this.attack = attack;
     this.numKeys = numKeys;
     this.img = img;

@@ -7,14 +7,15 @@ function drawAll(){
 }
 
 function drawUI(){
-    drawPlayerHealth();
+    drawPlayerStatBar(player.y * TILE_HEIGHT - 4, "#00ff00","#ff0000", player.health);
+    drawPlayerStatBar(player.y * TILE_HEIGHT - 2, "#0000ff","#ff0000", player.mana);
 }
 
-function drawPlayerHealth(){
-    ctx.fillStyle = "#00ff00";
-    ctx.fillRect(player.x * TILE_WIDTH, player.y * TILE_HEIGHT - 3, 40, 2);
-    ctx.fillStyle = "#ff0000";
-    ctx.fillRect(player.x * TILE_WIDTH + playerHealth, player.y * TILE_HEIGHT - 3, TILE_WIDTH - playerHealth, 2);
+function drawPlayerStatBar(y, colorFilled, colorDepleted, type){
+    ctx.fillStyle = colorFilled;//"#00ff00";
+    ctx.fillRect(player.x * TILE_WIDTH, y, 40, 2);
+    ctx.fillStyle = colorDepleted;//"#ff0000";
+    ctx.fillRect(player.x * TILE_WIDTH + type, y, TILE_WIDTH - type, 2);
 }
 
 function drawInventory(){
