@@ -27,7 +27,7 @@ var rawImages = [
 var tiles = [];
 var map = [];
 var images = [];
-var imagesLoaded;
+var imagesLoaded = 0;
 var player;
 var playerHealth = 40;
 var inventory = [];
@@ -50,7 +50,7 @@ function init(){
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         initTiles();
         initMap();
-        loadImages();
+        loadImage();
     }
 }
 
@@ -58,25 +58,22 @@ function startGame(){
     player = new PlayerClass(5, 5, 40, 1, 0, images[getIndexOfItemInArray(tiles, "player")], 0, 30);
     setInterval(update, 1000/FRAME_RATE); //set fps to 30
     setPlayerInput();
-    setTimeout(drawAll, 100);
+    drawAll();
 }
 
-function loadImages(){
-    imagesLoaded = rawImages.length;
-
-   for(var i = 0; i < rawImages.length; i++){
-        var img = new ImageClass(tiles[i].imgLoc);
-   }
+function loadImage(){
+    if (imagesLoaded < rawImages.length) {
+        var img = new ImageClass(tiles[imagesLoaded].imgLoc);
+    } else {
+        startGame();
+    }
 }
 
 function checkImagesLoaded(img){
-    imagesLoaded--;
     img.isLoaded = true;
     images.push(img);
-    
-    if(imagesLoaded == 0){
-        startGame();
-    }
+    imagesLoaded++;
+    loadImage();
 }
 
 function initTiles(){
