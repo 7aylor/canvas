@@ -6,17 +6,14 @@ function TileClass(val, name, imgName){
 
 function ImageClass(path){
     this.image = new Image();
+    this.isLoaded = false;
+    this.image.onload = checkImagesLoaded(this.image);
     this.image.src = path;
-    images.push(this.image);
-    
-    this.image.onload = this.loadImage;
-
-    this.loadImage = checkImagesLoaded();
 }
 
 function PlayerClass(x, y, health, attack, numKeys, img, sprite, animSpeed){
-    this.x = x * TILE_WIDTH;
-    this.y = y * TILE_HEIGHT;
+    this.x = x;
+    this.y = y;
     this.health = health;
     this.attack = attack;
     this.numKeys = numKeys;
@@ -32,7 +29,7 @@ function PlayerClass(x, y, health, attack, numKeys, img, sprite, animSpeed){
     }
 
     this.draw = function(){
-        ctx.drawImage(img, spriteIndex * TILE_WIDTH, 0, TILE_WIDTH, TILE_HEIGHT, 0, 0, TILE_WIDTH, TILE_HEIGHT);
+        ctx.drawImage(img, this.spriteIndex * TILE_WIDTH, 0, TILE_WIDTH, TILE_HEIGHT, this.x * 40, this.y * 40, TILE_WIDTH, TILE_HEIGHT);
     }
 
     this.updateSprite = function(){

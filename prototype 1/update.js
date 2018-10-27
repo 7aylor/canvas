@@ -1,8 +1,5 @@
 function update(){
     tick++;
-    drawTiles();
-    drawUI();
-    drawInventory();
 }
 
 function setPlayerInput(){
@@ -12,15 +9,19 @@ function setPlayerInput(){
 function movePlayer(evt){
     if(evt.keyCode == UP_ARROW){
         updatePlayerLocationIfKeyPressed(0, -1);
+        drawAll();
     }
     if(evt.keyCode == LEFT_ARROW){
         updatePlayerLocationIfKeyPressed(-1, 0);
+        drawAll();
     }
     if(evt.keyCode == DOWN_ARROW){
         updatePlayerLocationIfKeyPressed(0, 1);
+        drawAll();
     }
     if(evt.keyCode == RIGHT_ARROW){
         updatePlayerLocationIfKeyPressed(1, 0);
+        drawAll();
     }
 }
 

@@ -1,9 +1,16 @@
+function drawAll(){
+    drawTiles();
+    player.draw();
+    drawUI();
+    drawInventory();
+    console.log("drawAll called");
+}
+
 function drawUI(){
     drawPlayerHealth();
 }
 
 function drawPlayerHealth(){
-    //playerHealth = 30;
     ctx.fillStyle = "#00ff00";
     ctx.fillRect(player.x * TILE_WIDTH, player.y * TILE_HEIGHT - 3, 40, 2);
     ctx.fillStyle = "#ff0000";
@@ -14,7 +21,6 @@ function drawInventory(){
     ctx.fillStyle = "#a11a2c";
     ctx.fillRect(0, (NUM_ROWS - 1) * TILE_WIDTH, canvas.width, TILE_HEIGHT);
 
-    
     ctx.drawImage(images[getItemValInArrayByName(tiles, "bag")], 0, (NUM_ROWS - 1) * 40);
     drawSeparatorLineInInventory(41);
 
@@ -47,8 +53,4 @@ function drawTiles(){
             ctx.drawImage(images[map[x][y]], x * 40, y * 40);
         }
     }
-}
-
-function drawPlayer(){
-
 }
