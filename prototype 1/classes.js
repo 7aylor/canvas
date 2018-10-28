@@ -7,7 +7,9 @@ function TileClass(val, name, imgName){
 function ImageClass(path){
     this.image = new Image();
     this.isLoaded = false;
-    this.image.onload = checkImagesLoaded(this.image);
+    this.image.onload = function () {
+        checkImagesLoaded(this.image);
+    }.bind(this);
     this.image.src = path;
 }
 
