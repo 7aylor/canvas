@@ -16,7 +16,7 @@ var tick = 0;
 var rawImages = [
     "ground.png", 
     "wall.png", 
-    "player.png", 
+    "player_sheet.png", 
     "enemy_red.png",
     "enemy_blue.png",
     "door.png", 
@@ -55,7 +55,11 @@ function init(){
 }
 
 function startGame(){
-    player = new PlayerClass(5, 5, 40, 1, 0, images[getIndexOfItemInArray(tiles, "player")], 0, 30);
+    player = new PlayerClass(5, 5, 40, 1, 0, 
+                             images[getIndexOfItemInArray(tiles, "player_sheet")],
+                             images[getIndexOfItemInArray(tiles, "ground")],  
+                             0, 10);
+    
     setInterval(update, 1000/FRAME_RATE); //set fps to 30
     setPlayerInput();
     drawAll();
