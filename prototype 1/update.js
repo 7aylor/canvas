@@ -24,8 +24,6 @@ function movePlayer(evt){
 
 function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
 
-    player.clearPreviousTile(player.x, player.y);
-
     if(isMovePosValid(player.x + deltaX, player.y + deltaY)){
         if(map[player.x + deltaX][player.y + deltaY] == getItemValInArrayByName(tiles, "enemy_red")){
             player.health -= 5;
@@ -53,6 +51,7 @@ function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
             inventory.push(tiles[getItemValInArrayByName(tiles, "key")]);
             numKeys++;
         }
+        player.clearPreviousTile(player.x, player.y);
         clearMapPos(player.x, player.y, getItemValInArrayByName(tiles, "ground"));
         player.x += deltaX;
         player.y += deltaY;

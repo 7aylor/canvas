@@ -1,3 +1,5 @@
+//TODO: Item Class, Enemy Class
+
 function TileClass(val, name, imgName){
     this.val = val;
     this.name = name;
@@ -25,7 +27,7 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
     this.spriteIndex = sprite;
     this.animationSpeed = animSpeed;
     this.numSprites = img.width / TILE_WIDTH;
-    //this.inventory = inventory;
+    this.inventory = [{name: "test", count: 1}, {name: "test2", count: 2}];
 
     this.move = function(newX, newY){
         this.x = newX * TILE_WIDTH;
@@ -70,4 +72,53 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
         ctx.fillStyle = colorDepleted;
         ctx.fillRect(this.x * TILE_WIDTH + type, y, TILE_WIDTH - type, 2);
     }
+
+    //adds an item to the inventory. Must pass entire item object: name, count
+    this.addItemToInventory = function(obj){
+        //check if item is in invetory already
+        var itemIndex = this.checkInventoryIncludes(obj.name);
+        
+        //if item is found, increase count of that item
+        if(itemIndex != -1){
+            this.inventory[itemIndex].count++;
+        }
+        //otherwise, push whole object into inventory
+        else{
+            this.inventory.push(obj);
+        }
+    }
+
+    //checks if invetory has an item by name. Returns index or -1 if not found
+    this.checkInventoryIncludes = function(name){
+        for(var i = 0; i < this.inventory.length; i++){
+            if(this.inventory[i].name == name){
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    this.removeItemFromInventory = function(name){
+        var index = this.checkInventoryIncludes(name);
+
+        if(index != -1){
+            if(this.inventory[index].count <= 1){
+                if(index == this.inventory.length - 1){
+                    this.inventory.pop();
+                }
+                else{
+                    this.inventory.splice(index, index + 1);
+                }
+            }
+            else{
+                this.inventory[index].count--;
+            }
+        }
+    }
+
+    this.drawInventory = function(){
+        console.log(this.inventory);
+    }
 }
+

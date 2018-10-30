@@ -63,6 +63,15 @@ function startGame(){
     setInterval(update, 1000/FRAME_RATE); //set fps to 30
     setPlayerInput();
     drawAll();
+
+    //testing player inventory functions
+    player.drawInventory();
+    player.addItemToInventory({name: "insert test", count: 1});
+    player.drawInventory();
+    player.removeItemFromInventory("test2");
+    //player.removeItemFromInventory("test2");
+    //player.drawInventory();
+
 }
 
 function loadImage(){
