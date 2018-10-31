@@ -63,20 +63,22 @@ function startGame(){
     setInterval(update, 1000/FRAME_RATE); //set fps to 30
     setPlayerInput();
     drawAll();
+    player.drawInventory();
 
     //testing player inventory functions
-    player.drawInventory();
+    /*player.drawInventory();
     player.addItemToInventory({name: "insert test", count: 1});
     player.drawInventory();
     player.removeItemFromInventory("test2");
-    //player.removeItemFromInventory("test2");
-    //player.drawInventory();
-
+    player.removeItemFromInventory("test2");
+    player.drawInventory();
+    */
 }
 
 function loadImage(){
     if (imagesLoaded < rawImages.length) {
-        var img = new ImageClass(tiles[imagesLoaded].imgLoc);
+        var name = rawImages[imagesLoaded]; //used to get name from rawImage name
+        var img = new ImageClass(tiles[imagesLoaded].imgLoc, name.substr(0, name.length - 4));
     } else {
         startGame();
     }

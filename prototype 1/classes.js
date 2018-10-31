@@ -6,9 +6,10 @@ function TileClass(val, name, imgName){
     this.imgLoc = IMG_PATH + imgName;
 }
 
-function ImageClass(path){
+function ImageClass(path, name){
     this.image = new Image();
     this.isLoaded = false;
+    this.image.name = name;
     this.image.onload = function () {
         checkImagesLoaded(this.image);
     }.bind(this);
@@ -27,7 +28,7 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
     this.spriteIndex = sprite;
     this.animationSpeed = animSpeed;
     this.numSprites = img.width / TILE_WIDTH;
-    this.inventory = [{name: "test", count: 1}, {name: "test2", count: 2}];
+    this.inventory = []; //obj format: {name: string, count: int}
 
     this.move = function(newX, newY){
         this.x = newX * TILE_WIDTH;
@@ -37,7 +38,8 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
     //draws background, then player, then stat bars. Called each sprite change
     this.draw = function(){
         this.drawBackground(this.x, this.y);
-        ctx.drawImage(this.img, this.spriteIndex * TILE_WIDTH, 0, TILE_WIDTH, TILE_HEIGHT, this.x * 40, this.y * 40, TILE_WIDTH, TILE_HEIGHT);
+        ctx.drawImage(this.img, this.spriteIndex * TILE_WIDTH, 0, TILE_WIDTH, TILE_HEIGHT, 
+                      this.x * 40, this.y * 40, TILE_WIDTH, TILE_HEIGHT);
         this.drawStatBar(this.y * TILE_HEIGHT, "#00ff00","#ff0000", this.health);
         this.drawStatBar(this.y * TILE_HEIGHT + 2, "#0000ff","#ff0000", this.mana);
     }
@@ -86,12 +88,14 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
         else{
             this.inventory.push(obj);
         }
+
+        this.drawInventory();
     }
 
     //checks if invetory has an item by name. Returns index or -1 if not found
     this.checkInventoryIncludes = function(name){
         for(var i = 0; i < this.inventory.length; i++){
-            if(this.inventory[i].name == name){
+            if(this.inventory[i].name === name){
                 return i;
             }
         }
@@ -108,7 +112,7 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
                     this.inventory.pop();
                 }
                 else{
-                    this.inventory.splice(index, index + 1);
+                    this.inventory.splice(index, 1);
                 }
             }
             else{
@@ -118,7 +122,37 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
     }
 
     this.drawInventory = function(){
-        console.log(this.inventory);
+        console.log(this.inventory.slice());
+    }
+
+    this.drawInventory = function(){
+        console.log(this.inventory.slice());
+        ctx.fillStyle = "#a11a2c";
+        ctx.fillRect(0, (NUM_ROWS - 1) * TILE_WIDTH, canvas.width, TILE_HEIGHT);
+    
+        ctx.drawImage(images[getItemValInArrayByName(tiles, "bag")], 0, (NUM_ROWS - 1) * 40);
+        this.drawSeparatorLineInInventory(41);
+    
+        for(var x = 0; x < this.inventory.length; x++){
+            //check for multiple items? if so, draw image and count
+            var img = getImageByName(this.inventory[x].name);
+            if(img != -1){
+                ctx.drawImage(img, (x + 1) * 40, (NUM_ROWS - 1) * 40);
+                ctx.fillStyle = "white";
+                ctx.font = "12px Arial";
+                ctx.fontWeight = "bold";
+                ctx.fillText("x" + this.inventory[x].count, ((x + 2) * 40) - 16, ((NUM_ROWS) * 40 - 2));
+                this.drawSeparatorLineInInventory((x + 2) * 40);
+            }
+        }
+    }
+    
+    this.drawSeparatorLineInInventory = function(x){
+        ctx.strokeStyle = "black";
+        ctx.beginPath();
+        ctx.moveTo(x, (NUM_ROWS - 1) * 40);
+        ctx.lineTo(x, (NUM_ROWS) * 40);
+        ctx.stroke();
     }
 }
 

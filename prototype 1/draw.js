@@ -1,29 +1,6 @@
 function drawAll(){
     drawTiles();
-    drawInventory();
     player.draw();
-}
-
-function drawInventory(){
-    ctx.fillStyle = "#a11a2c";
-    ctx.fillRect(0, (NUM_ROWS - 1) * TILE_WIDTH, canvas.width, TILE_HEIGHT);
-
-    ctx.drawImage(images[getItemValInArrayByName(tiles, "bag")], 0, (NUM_ROWS - 1) * 40);
-    drawSeparatorLineInInventory(41);
-
-    for(var x = 0; x < inventory.length; x++){
-        //check for multiple items? if so, draw image and count
-        ctx.drawImage(images[inventory[x].val], (x + 1) * 40, (NUM_ROWS - 1) * 40);
-        drawSeparatorLineInInventory((x + 2) * 40);
-    }
-}
-
-function drawSeparatorLineInInventory(x){
-    ctx.strokeStyle = "black";
-    ctx.beginPath();
-    ctx.moveTo(x, (NUM_ROWS - 1) * 40);
-    ctx.lineTo(x, (NUM_ROWS) * 40);
-    ctx.stroke();
 }
 
 function drawTiles(){

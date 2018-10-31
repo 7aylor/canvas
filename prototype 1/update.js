@@ -32,24 +32,16 @@ function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
             player.mana -= 5;
         }
         else if (map[player.x + deltaX][player.y + deltaY] == getItemValInArrayByName(tiles, "door")){
-            if(numKeys == 0){
+            if(player.checkInventoryIncludes("key") == -1){
                 console.log("no keys");
                 return;
             }
             else{
-                var index = getIndexOfItemInArray(inventory, "key");
-                if(index == inventory.length - 1){
-                    inventory.pop();
-                }
-                else{
-                    inventory.splice(index, index + 1);
-                }
-                numKeys--;
+                player.removeItemFromInventory("key");
             }
         }
         else if(map[player.x + deltaX][player.y + deltaY] == getItemValInArrayByName(tiles, "key")){
-            inventory.push(tiles[getItemValInArrayByName(tiles, "key")]);
-            numKeys++;
+            player.addItemToInventory({name: "key", count: 1});
         }
         player.clearPreviousTile(player.x, player.y);
         clearMapPos(player.x, player.y, getItemValInArrayByName(tiles, "ground"));
@@ -58,6 +50,6 @@ function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
         map[player.x][player.y] = getItemValInArrayByName(tiles, "player");
 
         player.draw();
-        drawInventory();
+        player.drawInventory();
     }
 }
