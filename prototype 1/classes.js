@@ -42,8 +42,9 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
         this.drawBackground(this.x, this.y);
         ctx.drawImage(this.img, this.spriteIndex * TILE_WIDTH, 0, TILE_WIDTH, TILE_HEIGHT, 
                       this.x * 40, this.y * 40, TILE_WIDTH, TILE_HEIGHT);
-        this.drawStatBar(this.y * TILE_HEIGHT, "#00ff00","#ff0000", this.health);
-        this.drawStatBar(this.y * TILE_HEIGHT + 2, "#0000ff","#ff0000", this.mana);
+        //this.drawStatBar(this.y * TILE_HEIGHT, "#00ff00","#ff0000", this.health);
+        //this.drawStatBar(this.y * TILE_HEIGHT + 2, "#0000ff","#ff0000", this.mana);
+        this.drawHealthMana();
     }
 
     //draws player background
@@ -76,6 +77,39 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
         ctx.fillRect(this.x * TILE_WIDTH, y, 40, 2);
         ctx.fillStyle = colorDepleted;
         ctx.fillRect(this.x * TILE_WIDTH + type, y, TILE_WIDTH - type, 2);
+    }
+
+    this.drawHealthMana = function(){
+        //health
+        let healthX = (NUM_COLS - 2) * TILE_WIDTH;
+        let manaX = (NUM_COLS - 1) * TILE_WIDTH;
+        let statsY = (NUM_ROWS - 1) * TILE_HEIGHT;
+
+        //red circle
+        ctx.beginPath();
+        ctx.fillStyle = "#a11a2c";
+        ctx.arc(healthX + (TILE_WIDTH / 2), statsY + (TILE_HEIGHT / 2), (TILE_WIDTH / 2), 0, 2 * Math.PI);
+        ctx.fill();
+
+        //health damage
+        ctx.fillStyle = "#276647";
+        ctx.fillRect(healthX, statsY, TILE_WIDTH, this.fullHealth - this.health);
+
+        //outline
+        ctx.drawImage(getImageByName("health_mana"), healthX, statsY);
+
+        //mana
+        ctx.beginPath();
+        ctx.fillStyle = "#2b3061";
+        ctx.arc(manaX + (TILE_WIDTH / 2), statsY + (TILE_HEIGHT / 2), TILE_WIDTH / 2, 0, 2 * Math.PI);
+        ctx.fill();
+
+        //mana damage
+        ctx.fillStyle = "#276647";
+        ctx.fillRect(manaX, statsY, TILE_WIDTH, this.fullMana - this.mana);
+
+        //outline
+        ctx.drawImage(getImageByName("health_mana"), manaX, statsY);
     }
 
     //adds an item to the inventory. Must pass entire item object: name, count

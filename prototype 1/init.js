@@ -24,7 +24,8 @@ var rawImages = [
     "bag.png",
     "lock.png",
     "potion_health.png",
-    "potion_mana.png"
+    "potion_mana.png",
+    "health_mana.png"
 ];
 
 var tiles = [];

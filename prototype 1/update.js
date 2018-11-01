@@ -104,7 +104,7 @@ function updatePlayerLocationIfKeyPressed(deltaX, deltaY){
         player.y += deltaY;
         map[player.x][player.y] = getItemValInArrayByName(tiles, "player");
 
-        player.draw();
         player.drawInventory();
+        player.draw();
     }
 }
