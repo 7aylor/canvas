@@ -20,7 +20,9 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
     this.x = x;
     this.y = y;
     this.health = health;
+    this.fullHealth = health;
     this.mana = health;
+    this.fullMana = this.mana;
     this.attack = attack;
     this.numKeys = numKeys;
     this.img = img;
@@ -67,6 +69,7 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
         this.drawBackground(oldX, oldY);
     }
 
+    //TODO: Experiment with not using a stat bar and using health and mana icons in inventory area
     //draws stat bar
     this.drawStatBar = function(y, colorFilled, colorDepleted, type){
         ctx.fillStyle = colorFilled;
@@ -122,12 +125,7 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
     }
 
     this.drawInventory = function(){
-        console.log(this.inventory.slice());
-    }
-
-    this.drawInventory = function(){
-        console.log(this.inventory.slice());
-        ctx.fillStyle = "#a11a2c";
+        ctx.fillStyle = "#276647";
         ctx.fillRect(0, (NUM_ROWS - 1) * TILE_WIDTH, canvas.width, TILE_HEIGHT);
     
         ctx.drawImage(images[getItemValInArrayByName(tiles, "bag")], 0, (NUM_ROWS - 1) * 40);

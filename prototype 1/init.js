@@ -21,7 +21,10 @@ var rawImages = [
     "enemy_blue.png",
     "door.png", 
     "key.png", 
-    "bag.png"
+    "bag.png",
+    "lock.png",
+    "potion_health.png",
+    "potion_mana.png"
 ];
 
 var tiles = [];
@@ -114,9 +117,13 @@ function initMap(){
 
     map[8][8] = getItemValInArrayByName(tiles, "enemy_red");//TILE_ENEMY;
     map[2][12] =  getItemValInArrayByName(tiles, "enemy_blue");//TILE_ENEMY;
+    map[8][9] = getItemValInArrayByName(tiles, "enemy_red");//TILE_ENEMY;
+    map[2][11] =  getItemValInArrayByName(tiles, "enemy_blue");//TILE_ENEMY;
     map[0][6] =  getItemValInArrayByName(tiles, "door");//TILE_DOOR;
     map[12][6] =  getItemValInArrayByName(tiles, "key");//TILE_KEY;
     map[8][3] =  getItemValInArrayByName(tiles, "key");//TILE_KEY;
+    map[3][3] =  getItemValInArrayByName(tiles, "potion_health");//TILE_KEY;
+    map[4][9] =  getItemValInArrayByName(tiles, "potion_mana");//TILE_KEY;
 }
 
 function initEnemies(){
