@@ -17,7 +17,7 @@ var rawImages = [
     "ground.png", 
     "wall.png", 
     "player_sheet.png", 
-    "enemy_red.png",
+    "enemy_red_sheet.png",
     "enemy_blue.png",
     "door.png", 
     "key.png", 
@@ -33,6 +33,7 @@ var map = [];
 var images = [];
 var imagesLoaded = 0;
 var player;
+var enemy;
 var playerHealth = 40;
 var inventory = [];
 var numKeys = 0;
@@ -63,6 +64,8 @@ function startGame(){
                              images[getIndexOfItemInArray(tiles, "player_sheet")],
                              images[getIndexOfItemInArray(tiles, "ground")],  
                              0, 10);
+
+    enemy = new EnemyClass(8, 8, 5, images[getIndexOfItemInArray(tiles, "enemy_red_sheet")], 10);
     
     setInterval(update, 1000/FRAME_RATE); //set fps to 30
     setPlayerInput();
@@ -116,15 +119,20 @@ function initMap(){
         }
     }
 
+    /*
     map[8][8] = getItemValInArrayByName(tiles, "enemy_red");//TILE_ENEMY;
     map[2][12] =  getItemValInArrayByName(tiles, "enemy_blue");//TILE_ENEMY;
     map[8][9] = getItemValInArrayByName(tiles, "enemy_red");//TILE_ENEMY;
+    map[8][10] = getItemValInArrayByName(tiles, "enemy_red");//TILE_ENEMY;
+    map[8][11] = getItemValInArrayByName(tiles, "enemy_red");//TILE_ENEMY;
+    map[8][12] = getItemValInArrayByName(tiles, "enemy_red");//TILE_ENEMY;
     map[2][11] =  getItemValInArrayByName(tiles, "enemy_blue");//TILE_ENEMY;
     map[0][6] =  getItemValInArrayByName(tiles, "door");//TILE_DOOR;
     map[12][6] =  getItemValInArrayByName(tiles, "key");//TILE_KEY;
     map[8][3] =  getItemValInArrayByName(tiles, "key");//TILE_KEY;
     map[3][3] =  getItemValInArrayByName(tiles, "potion_health");//TILE_KEY;
     map[4][9] =  getItemValInArrayByName(tiles, "potion_mana");//TILE_KEY;
+    */
 }
 
 function initEnemies(){

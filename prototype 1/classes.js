@@ -34,7 +34,7 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
 
     this.move = function(newX, newY){
         this.x = newX * TILE_WIDTH;
-        this.x = newY * TILE_HEIGHT;
+        this.y = newY * TILE_HEIGHT;
     }
 
     //draws background, then player, then stat bars. Called each sprite change
@@ -42,8 +42,6 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
         this.drawBackground(this.x, this.y);
         ctx.drawImage(this.img, this.spriteIndex * TILE_WIDTH, 0, TILE_WIDTH, TILE_HEIGHT, 
                       this.x * 40, this.y * 40, TILE_WIDTH, TILE_HEIGHT);
-        //this.drawStatBar(this.y * TILE_HEIGHT, "#00ff00","#ff0000", this.health);
-        //this.drawStatBar(this.y * TILE_HEIGHT + 2, "#0000ff","#ff0000", this.mana);
         this.drawHealthMana();
     }
 
@@ -54,7 +52,7 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
 
     //updates the player sprite at the animation speed. Called via update()
     this.updateSprite = function(){
-        if(tick % animSpeed == 0){
+        if(tick % this.animationSpeed == 0){
             this.draw();
             if(this.spriteIndex == this.numSprites - 1){
                 this.spriteIndex = 0;
@@ -68,15 +66,6 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
     //clears the previous tile, used when button is pressed to move player
     this.clearPreviousTile = function(oldX, oldY){
         this.drawBackground(oldX, oldY);
-    }
-
-    //TODO: Experiment with not using a stat bar and using health and mana icons in inventory area
-    //draws stat bar
-    this.drawStatBar = function(y, colorFilled, colorDepleted, type){
-        ctx.fillStyle = colorFilled;
-        ctx.fillRect(this.x * TILE_WIDTH, y, 40, 2);
-        ctx.fillStyle = colorDepleted;
-        ctx.fillRect(this.x * TILE_WIDTH + type, y, TILE_WIDTH - type, 2);
     }
 
     this.drawHealthMana = function(){
@@ -186,5 +175,35 @@ function PlayerClass(x, y, health, attack, numKeys, img, bground, sprite, animSp
         ctx.lineTo(x, (NUM_ROWS) * 40);
         ctx.stroke();
     }
-}
+}//end of player class
 
+//TODO: Create a base class for all characters to inherit from
+function EnemyClass(x, y, damage, img, animSpeed){
+    this.x = x;
+    this.y = y;
+    this.damage = damage;
+    this.img = img;
+    this.spriteIndex = 0;
+    this.numSprites = img.width / TILE_WIDTH;
+    this.animationSpeed = animSpeed;
+
+    //draws background, then player, then stat bars. Called each sprite change
+    this.draw = function(){
+        ctx.drawImage(images[getIndexOfItemInArray(tiles, "ground")], this.x * TILE_WIDTH, this.y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
+        ctx.drawImage(this.img, this.spriteIndex * TILE_WIDTH, 0, TILE_WIDTH, TILE_HEIGHT, 
+                        this.x * 40, this.y * 40, TILE_WIDTH, TILE_HEIGHT);
+    }
+
+    //updates the player sprite at the animation speed. Called via update()
+    this.updateSprite = function(){
+        if(tick % this.animationSpeed == 0){
+            this.draw();
+            if(this.spriteIndex == this.numSprites - 1){
+                this.spriteIndex = 0;
+            }
+            else{
+                this.spriteIndex++;
+            }
+        }
+    }
+}

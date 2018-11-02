@@ -1,5 +1,6 @@
 function update(){
     player.updateSprite();
+    enemy.updateSprite();
     tick++;
 }
 
